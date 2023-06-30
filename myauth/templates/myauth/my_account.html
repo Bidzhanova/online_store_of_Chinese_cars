@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Личный кабинет
+{% endblock %}
+
+{% block body %}
+    <h1>Личный кабинет</h1><br>
+    <h2>Информация о пользователе</h2>
+    <p>Логин: {{ user.username }}</p>
+    <p>Имя: {{ user.first_name }}</p>
+    <p>Фамилия: {{ user.last_name }}</p>
+    <p>Эл. почта: {{ user.email }}</p>
+    <p>О себе: {{ user.profile.bio }}</p>
+
+    <div>
+        <a href="{% url 'myauth:logout' %}">Выйти</a>
+    </div>
+
+    <div>
+        <a href="{% url 'myauth:password_change' %}">Сменить пароль</a>
+    </div>
+
+{% endblock %}
