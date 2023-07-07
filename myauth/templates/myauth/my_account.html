@@ -6,12 +6,44 @@
 
 {% block body %}
     <h1>Личный кабинет</h1><br>
+
     <h2>Информация о пользователе</h2>
-    <p>Логин: {{ user.username }}</p>
-    <p>Имя: {{ user.first_name }}</p>
-    <p>Фамилия: {{ user.last_name }}</p>
-    <p>Эл. почта: {{ user.email }}</p>
-    <p>О себе: {{ user.profile.bio }}</p>
+
+    <i>Заходил {{ profile.user.last_login }}</i>
+
+    <div>
+        <figure>
+            <img src="{{ profile.avatar.url }}" width="150" height="150" alt="{{ profile }}">
+        </figure>
+    </div>
+
+    <p>Логин: {{ profile.user.username }}</p>
+
+    <div>
+        {% if profile.user.first_name %}
+        <p>Имя: {{ profile.user.first_name }}</p>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if profile.user.last_name %}
+        <p>Фамилия: {{ profile.user.last_name }}</p>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if profile.birth_date %}
+        <p>Дата рождения: {{ profile.birth_date }}</p>
+        {% endif %}
+    </div>
+
+    <p>Эл. почта: {{ profile.user.email }}</p>
+
+     <div>
+        {% if profile.bio %}
+        <p>О себе: {{ profile.bio }}</p>
+        {% endif %}
+    </div>
 
     <div>
         <a href="{% url 'myauth:logout' %}">Выйти</a>
@@ -19,6 +51,10 @@
 
     <div>
         <a href="{% url 'myauth:password_change' %}">Сменить пароль</a>
+    </div>
+
+    <div>
+        <a href="{% url 'myauth:my_account_update' %}">Редактировать профиль</a>
     </div>
 
 {% endblock %}

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django.contrib.sites',
+
     'shop.apps.ShopConfig',
     'myauth.apps.MyauthConfig',
 ]
@@ -109,9 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -137,5 +139,18 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = reverse_lazy('myauth:my_account')
 LOGOUT_REDIRECT_URL = reverse_lazy('myauth:login')
 LOGIN_URL = reverse_lazy('myauth:login')
+LOGOUT_URL = reverse_lazy('myauth:logout')
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'cars.auth@gmail.com'
+EMAIL_HOST_PASSWORD = 'ssuejkbxpkszuvxk'
+
+EMAIL_SERVER = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = ['cars.auth@gmail.com']
+
+SITE_ID = 1

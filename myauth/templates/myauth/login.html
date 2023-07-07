@@ -11,10 +11,21 @@
     {% else %}
         <p>Используйте форму для входа</p>
     {% endif %}
-    <form method="post">
+
+    <div>
+        <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Войти</button>
-    </form>
-    <a href="{% url 'myauth:password_reset' %}">Забыли пароль?</a>
+        </form>
+    </div>
+
+    <div>
+        <a href="{% url 'myauth:password_reset' %}">Забыли пароль?</a>
+    </div>
+
+    <div>
+        <a href="{% url 'myauth:register' %}">Ещё не зарегистрированы на сайте?</a>
+    </div>
+
 {% endblock %}

@@ -1,6 +1,5 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth.views import (
-    LoginView,
     LogoutView,
     PasswordChangeView,
     PasswordChangeDoneView,
@@ -10,19 +9,31 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView,
 )
 
-from .views import my_account
-from .forns import UserLoginForm
+from .views import (
+    MyAccountDetailView,
+    MyAccountUpdateView,
+    UserRegistrationView,
+    EmailConfirmationSentView,
+    UserConfirmEmailView,
+    EmailConfirmedView,
+    EmailConfirmationFailedView,
+    MyLoginView,
+)
 
 app_name = 'myauth'
 
 urlpatterns = [
+    path('register/', UserRegistrationView.as_view(), name='register'),
+    path('email_confirmation_sent/', EmailConfirmationSentView.as_view(), name='email_confirmation_sent'),
+    path('confirm_email/<str:uidb64>/<str:token>/', UserConfirmEmailView.as_view(), name='confirm_email'),
+    path('email_confirmed/', EmailConfirmedView.as_view(), name='email_confirmed'),
+    path('email_confiramation_failed/', EmailConfirmationFailedView.as_view(), name='email_confirmation_failed'),
 
     path(
         'login/',
-        LoginView.as_view(
+        MyLoginView.as_view(
             template_name='myauth/login.html',
             redirect_authenticated_user=True,
-            authentication_form=UserLoginForm,
         ),
         name='login'
     ),
@@ -51,7 +62,7 @@ urlpatterns = [
         PasswordResetView.as_view(
             template_name='myauth/password_reset.html',
             email_template_name='myauth/password_reset_email.html',
-            success_url=reverse_lazy('myauth:password_reset_done')
+            success_url=reverse_lazy('myauth:password_reset_done'),
         ),
         name='password_reset'
     ),
@@ -81,5 +92,6 @@ urlpatterns = [
         name='password_reset_complete'
     ),
 
-    path('my_account/', my_account, name='my_account'),
+    path('my_account/<int:pk>/', MyAccountDetailView.as_view() , name='my_account'),
+    path('my_account/update/', MyAccountUpdateView.as_view(), name='my_account_update'),
 ]

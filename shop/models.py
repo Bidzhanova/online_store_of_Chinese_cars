@@ -1,3 +1,4 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
 
@@ -23,14 +24,19 @@ def car_images_directory_path(instance: 'CarImage', filename: str) -> str:
 
 
 class Brand(models.Model):
+    """Модель марки автомобиля."""
     class Meta:
         verbose_name = 'бренд'
         verbose_name_plural = 'бренды'
+        ordering = ['title',]
+        indexes = [models.Index(fields=('title',))]
 
     title = models.CharField(max_length=100, verbose_name='название')
     brand_country = models.CharField(max_length=30, default='Китай', verbose_name='страна бренда')
     description = models.TextField(blank=True, verbose_name='описание')
-    image = models.ImageField(upload_to=brand_image_directory_path, blank=True, verbose_name='изображение')
+    image = models.ImageField(upload_to=brand_image_directory_path, blank=True, validators=[
+        FileExtensionValidator(allowed_extensions=('png', 'jpg', 'webp', 'jpeg', 'gif'))
+    ], verbose_name='изображение')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='дата создания')
 
     def __str__(self):
@@ -38,20 +44,24 @@ class Brand(models.Model):
 
 
 class Car(models.Model):
+    """Модель автомобиля."""
     class Meta:
         verbose_name = 'автомобиль'
         verbose_name_plural = 'автомобили'
+        ordering = ['brand', 'model', '-price',]
+        indexes = [models.Index(fields=('brand', 'model', '-price'))]
+
 
     CAR_CLASS_CHOICES = (
-        ('A', 'a'),
-        ('B', 'b'),
-        ('C', 'c'),
-        ('D', 'd'),
-        ('E', 'e'),
-        ('F', 'f'),
-        ('S', 's'),
-        ('M', 'm'),
-        ('J', 'j'),
+        ('A', 'A'),
+        ('B', 'B'),
+        ('C', 'C'),
+        ('D', 'D'),
+        ('E', 'E'),
+        ('F', 'F'),
+        ('S', 'S'),
+        ('M', 'M'),
+        ('J', 'J'),
     )
 
     TRANSMISSION_CHOICES = (
@@ -69,7 +79,9 @@ class Car(models.Model):
 
     price = models.DecimalField(max_digits=8, decimal_places=0, verbose_name='цена')
     discount = models.PositiveSmallIntegerField(default=0, verbose_name='скидка')
-    preview = models.ImageField(blank=True, upload_to=car_preview_directory_path, verbose_name='превью')
+    preview = models.ImageField(blank=True, upload_to=car_preview_directory_path, validators=[
+        FileExtensionValidator(allowed_extensions=('png', 'jpg', 'webp', 'jpeg', 'gif'))
+    ], verbose_name='превью')
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='brands', verbose_name='бренд')
     model = models.CharField(max_length=100, verbose_name='модель')
     car_class = models.CharField(max_length=1, choices=CAR_CLASS_CHOICES, verbose_name='класс автомобиля')
@@ -90,6 +102,7 @@ class Car(models.Model):
 
 
 class CarImage(models.Model):
+    """Модель изображения автомобиля."""
     class Meta:
         verbose_name = 'изображение автомобиля'
         verbose_name_plural = 'изображения автомобилей'
