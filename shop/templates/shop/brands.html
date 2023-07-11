@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Марки автомобилей
+{% endblock %}
+
+{% block body %}
+    <h1>Марки автомобилей</h1>
+    <h3>На нашем сайте представлены следующие марки китайских автомобилей:</h3>
+    <div>
+    {% if brands %}
+    {% for brand in brands %}
+        <div>
+            <p><img src="{{ brand.image.url }}" width="120" height="90" align="left" hspace="10" alt="Логотип"></p>
+            <p>Название: {{ brand.title }}</p>
+            <p>Страна: {{ brand.brand_country }}</p>
+            <p><a href="{% url 'shop:brand_details' pk=brand.pk %}">Посмотреть описание марки</a></p>
+        </div>
+    {% endfor %}
+
+    {% else %}
+        <p>Пока не было добавлено ни одной марки автомобиля</p>
+    {% endif %}
+    </div>
+{% endblock %}

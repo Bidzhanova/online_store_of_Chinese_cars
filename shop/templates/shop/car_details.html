@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ car.brand }} {{ car.model }}
+{% endblock %}
+
+{% block body %}
+    <h1>Подробная информация об автомобиле {{ car.brand }} {{ car.model }}</h1>
+    <p>Класс автомобиля: {{ car.car_class }}</p>
+    <p>Количество дверей: {{ car.doors_qty }}</p>
+    <p>Количество мест: {{ car.seats_qty }}</p>
+    <p>Коробка: {{ car.transmission }}</p>
+    <p>Мощность двигателя: {{ car.engine_power }} л.с.</p>
+    <p>Объём двигателя: {{ car.engine_capacity }} л</p>
+    <p>Привод: {{ car.drive }}</p>
+    <p>Расход: {{ car.consumption }}</p>
+    <p>Объём багажника: {{ car.trunk_volume }} л</p>
+    <p>Объём топливного бака: {{ car.fuel_tank_capacity }} л</p>
+    <p>Максимальная скорость: {{ car.max_speed }} км/ч</p>
+    <div>
+        <a href="{% url 'shop:brand_details' pk=car.brand.pk %}">Вернуться на предыдущую страницу</a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Автомобили
+{% endblock %}
+
+{% block body %}
+    <h1>Автомобили</h1>
+    <h3>На нашем сайте представлены следующие автомобили:</h3>
+    {% if cars %}
+        {% for car in cars %}
+        <div>
+        <p><img src="{{ car.preview.url }}" height="180" width="280" align="left" hspace="10" alt="Превью автомобиля"></p>
+            <p>Марка: {{ car.brand }}</p>
+        <p>Модель: {{ car.model }}</p>
+        <p>Цена: {{ car.price }} руб.</p>
+        <p>Скидка: {{ car.discount }}%</p>
+            <a href="{% url 'shop:car_details' pk=car.pk %}">Посмотреть подробную информацию об автомобиле</a>
+        </div>
+            <div>
+                <a href="{% url 'shop:brands' %}">Вернуться к списку марок автомобилей</a>
+            </div><br>
+        {% endfor %}
+    {% else %}
+        <p>Пока не было добавлено ни одного автомобиля</p>
+    {% endif %}
+{% endblock %}

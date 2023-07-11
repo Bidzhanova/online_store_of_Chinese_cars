@@ -82,7 +82,7 @@ class Car(models.Model):
     preview = models.ImageField(blank=True, upload_to=car_preview_directory_path, validators=[
         FileExtensionValidator(allowed_extensions=('png', 'jpg', 'webp', 'jpeg', 'gif'))
     ], verbose_name='превью')
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='brands', verbose_name='бренд')
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='brand', verbose_name='бренд')
     model = models.CharField(max_length=100, verbose_name='модель')
     car_class = models.CharField(max_length=1, choices=CAR_CLASS_CHOICES, verbose_name='класс автомобиля')
     doors_qty = models.PositiveSmallIntegerField(verbose_name='количество дверей')

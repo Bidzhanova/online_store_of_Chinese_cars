@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ brand.model }}
+{% endblock %}
+
+{% block body %}
+    <h1>Подробная информация о марке автомобиля</h1>
+    <p>Описание: {{ brand.description }}</p><br>
+
+    <div>
+        {% for car in cars %}
+            {% if car %}
+                <strong>Вы можете посмотреть модели автомобилей данной марки:</strong>
+                <p><a href="{% url 'shop:car_details' pk=car.pk %}">{{ car }}</a></p><br>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <p><a href="{% url 'shop:brands' %}">Вернуться к списку марок автомобилей</a></p>
+
+{% endblock %}
